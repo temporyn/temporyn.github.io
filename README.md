@@ -25,8 +25,22 @@ content/
 
 ```bash
 bundle install
-bundle exec jekyll serve   # http://127.0.0.1:4000
+bin/serve                  # http://127.0.0.1:4000 (content 자동 리로드 + livereload)
 ```
+
+`content/`는 `_config.yml`의 `exclude`에 있어 Jekyll 워처가 감시하지 않는다.
+그래서 `jekyll serve`만 쓰면 **아티클을 편집·추가해도 자동 재빌드가 안 된다**.
+`bin/serve`는 `content/` 전용 보조 워처를 함께 띄워, 변경 시 `_plugins/docs.rb`를
+touch → 전체 재빌드를 유발하고, `--livereload`가 브라우저를 자동 새로고침한다.
+
+환경에 따라 `bundle exec`가 실패하면 Jekyll 실행 명령을 바꿔서:
+
+```bash
+JEKYLL="ruby $HOME/bin/jekyll" bin/serve
+```
+
+> 자동 리로드가 필요 없다면 `bundle exec jekyll serve`로 그대로 실행해도 된다
+> (단, `content/` 변경은 서버 재시작해야 반영됨).
 
 ## 배포
 

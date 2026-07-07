@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# 로컬 개발 서버 + content/ 자동 리로드
+#
+# content/ 는 _config.yml의 exclude 에 있어 Jekyll 워처(listen)가 감시하지 않는다.
+# 그래서 아티클을 편집/추가해도 재빌드가 안 된다.
+# 아래 보조 워처가 content/ 변경을 감지해 _plugins/docs.rb 를 touch → Jekyll 전체 재빌드를 유발한다.
+# jekyll --livereload 가 재빌드 후 브라우저를 자동 새로고침한다.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+# 환경에 따라 bundle exec 가 실패하면 JEKYLL="ruby $HOME/bin/jekyll" 로 실행:
+#   JEKYLL="ruby $HOME/bin/jekyll" bin/serve
+JEKYLL="${JEKYLL:-bundle exec jekyll}"
+
+# content/ → docs.rb touch 보조 워처 (백그라운드)
+ruby -e '
+require "listen"
+require "fileutils"
+plugin = File.expand_path("_plugins/docs.rb", Dir.pwd)
+listener = Listen.to("content") do |mod, add, rem|
+  FileUtils.touch(plugin)
+  warn "[content-watch] #{(mod + add + rem).size}개 변경 → 재빌드"
+end
+listener.start
+sleep
+' &
+WATCHER=$!
+trap 'kill "$WATCHER" 2>/dev/null || true' EXIT INT TERM
+
+exec $JEKYLL serve --livereload "$@"
