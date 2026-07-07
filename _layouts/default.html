@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'ko' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.category | default: site.description }}">
+
+  {%- comment -%} FOUC 방지: CSS 적용 전에 저장된 테마를 즉시 반영 {%- endcomment -%}
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('temporyn-theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  {%- comment -%} FOUC 방지: 외부 CSS 적용 전 첫 페인트를 위한 크리티컬 스타일 {%- endcomment -%}
+  <style>
+    :root{--bg-1:#f8f8ff;--tx-1:#1e1e2a;
+      --fm:'Fira Code','Pretendard',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    :root[data-theme="dark"]{--bg-1:#14141c;--tx-1:#ececf4}
+    html{background:var(--bg-1)}
+    body{margin:0;background:var(--bg-1);color:var(--tx-1);
+      font-family:var(--fm);font-size:15px;line-height:1.7}
+  </style>
+
+  {%- comment -%} 파비콘 {%- endcomment -%}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon/favicon-32x32.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon/favicon-16x16.png' | relative_url }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/favicon/apple-touch-icon.png' | relative_url }}">
+  <link rel="manifest" href="{{ '/assets/favicon/site.webmanifest' | relative_url }}">
+
+  <link rel="preload" href="{{ '/assets/fonts/FiraCode-Regular.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ '/assets/fonts/PretendardVariable.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ '/assets/css/temporyn.css' | relative_url }}">
+</head>
+<body data-baseurl="{{ site.baseurl }}">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="사이드바 열기">≡</button>
+      <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <nav class="topnav">
+        <a href="{{ '/about/' | relative_url }}">About</a>
+        <button id="theme-toggle" class="theme-toggle" type="button"
+                aria-label="테마 전환" title="라이트/다크 전환">
+          <span class="theme-icon" aria-hidden="true"></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  {{ content }}
+
+  <script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# ── Site ────────────────────────────────────────────────────────────────
+title: Temporyn-Git
+description: 개인 기술 학습 문서 (Obsidian 폴더 트리 스타일)
+author: temporyn
+lang: ko
+
+# baseurl: GitHub Pages project site면 "/저장소이름", 사용자/커스텀 도메인이면 ""
+baseurl: ""
+url: ""
+
+# ── Build ───────────────────────────────────────────────────────────────
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# content/ 폴더의 원본 마크다운은 _plugins/docs.rb 가 직접 스캔/생성하므로
+# Jekyll 기본 처리에서는 제외한다 (정적 복사 방지).
+exclude:
+  - content
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - CLAUDE.md
+  - vendor
+  - .jekyll-cache
+  - .git
+
+# 문서 콘텐츠 루트 (플러그인이 참조)
+docs_dir: content
+
+# ── Defaults ────────────────────────────────────────────────────────────
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
