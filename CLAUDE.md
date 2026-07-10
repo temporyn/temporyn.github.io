@@ -16,16 +16,16 @@
 - **실습/명령 예시는 Linux 기준만**(현 환경 Fedora). macOS/Windows/Homebrew 분기 넣지 않는다.
 - **구조**: 개념 → 실습 흐름. 명령은 코드블록 위주로, 설명 프로즈는 최소화.
 - **코드블록 내 ASCII 다이어그램에는 한글을 넣지 않는다.** 코드 폰트는 라틴 Fira Code(고정폭)+한글 Pretendard(가변폭) 폴백이라, 박스 안 한글은 폭이 어긋나 테두리 정렬이 깨진다. 박스 내부는 ASCII만 쓰고 한글 설명은 코드블록 밖 캡션으로 뺀다.
-- 기존 아티클 톤 참고 기준: `content/D03-kubernetes/F00-Prepared.md`, `F01-Pod.md`.
+- 기존 아티클 톤 참고 기준: `content/d03-kubernetes/r00-Prepared.md`, `r01-Pod.md`.
 
 ## 확정 사항
 - **SSG**: Jekyll (Ruby). GitHub Actions로 빌드/배포 (github-pages gem 미사용 → 커스텀 `_plugins/` 사용 가능)
   - 배포 워크플로: `.github/workflows/pages.yml` (자체 `bundle exec jekyll build` + `deploy-pages`)
 - **콘텐츠 구조**: `content/` 단일 루트 아래 **다단계 무제한 중첩 폴더**
   - front matter **없이** 순수 마크다운만 작성 → `_plugins/docs.rb`가 빌드 시 자동 처리
-  - 네이밍: 폴더 `D00-`, 파일 `F00-` 접두사
-  - 정렬: 같은 폴더 안에서 **폴더(D) → 파일(F)**, 각각 접두사 숫자 오름차순
-  - 표시 제목: 접두사 제거 + 하이픈/언더스코어 → 공백 (예: `F00-이미지-일괄정리.md` → "이미지 일괄정리")
+  - 네이밍: 폴더 `d00-`, 파일 `r00-` 접두사
+  - 정렬: 같은 폴더 안에서 **폴더(d) → 파일(r)**, 각각 접두사 숫자 오름차순
+  - 표시 제목: 접두사 제거 + 하이픈/언더스코어 → 공백 (예: `r00-이미지-일괄정리.md` → "이미지 일괄정리")
   - URL: 접두사만 제거 (하이픈/한글 유지). 예: `/docker/이미지-일괄정리/`
   - 본문 맨 앞의 최상위 `# 제목` 한 줄은 자동 제거(제목 중복 방지)
 - **`_plugins/docs.rb`가 생성하는 것**:

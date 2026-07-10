@@ -10,7 +10,7 @@
 #   4. 전문 검색 인덱스(/assets/search-index.json) 생성
 #
 #  네이밍 규칙
-#   - 폴더: D00-, D01- ...   파일: F00-, F01- ...
+#   - 폴더: d00-, d01- ...   파일: r00-, r01- ...
 #   - 정렬: 같은 폴더 안에서 [폴더 → 파일], 각각 접두사 숫자 오름차순
 #   - 표시 제목: 접두사 제거 + 하이픈/언더스코어 → 공백
 #   - URL:      접두사만 제거 (하이픈/한글은 유지)
@@ -22,17 +22,17 @@ require "cgi"
 module Temporyn
   module_function
 
-  PREFIX_RE = /\A[DdFf]\d+[-_]/.freeze
+  PREFIX_RE = /\A[DdRr]\d+[-_]/.freeze
   MD_RE     = /\.(md|markdown)\z/i.freeze
 
-  # 접두사(D00-, F03_)를 제거
+  # 접두사(d00-, r03_)를 제거
   def strip_prefix(name)
     name.sub(PREFIX_RE, "")
   end
 
   # 정렬용 숫자. 접두사가 없으면 맨 뒤로.
   def order_of(name)
-    m = name.match(/\A[DdFf](\d+)/)
+    m = name.match(/\A[DdRr](\d+)/)
     m ? m[1].to_i : 9_999
   end
 
