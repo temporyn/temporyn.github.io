@@ -56,6 +56,7 @@ module Temporyn
   def plain_text(raw)
     raw.gsub(/```.*?```/m, " ")   # 코드펜스 제거
        .gsub(/`[^`]*`/, " ")      # 인라인 코드 제거
+       .gsub(/\{:[^}]*\}/, " ")   # kramdown IAL({:.class}) 제거
        .gsub(/!?\[([^\]]*)\]\([^)]*\)/, '\1') # 링크/이미지 → 텍스트만
        .gsub(/^[#>\-\*\+\s]+/m, " ")           # 마크다운 기호
        .gsub(/[*_`>#|]/, " ")
@@ -155,7 +156,7 @@ class Temporyn::DocGenerator < Jekyll::Generator
       children     = build_tree(File.join(dir, e), child_url, crumbs + [display])
       # 폴더 안의 문서(파일) 총 개수 (하위 폴더 재귀 포함)
       count        = children.reduce(0) { |s, c| s + (c[:type] == :file ? 1 : c[:count]) }
-      nodes << { type: :dir, display: display, url: child_url,
+      nodes << { type: :dir, display: display, label: e, url: child_url,
                  children: children, count: count }
     end
 
@@ -184,7 +185,7 @@ class Temporyn::DocGenerator < Jekyll::Generator
         "content"  => Temporyn.plain_text(raw)
       }
 
-      nodes << { type: :file, display: display, url: "/#{file_url}/" }
+      nodes << { type: :file, display: display, label: basename, url: "/#{file_url}/" }
     end
 
     nodes
@@ -199,7 +200,7 @@ class Temporyn::DocGenerator < Jekyll::Generator
         out << %(<li class="tree-dir" data-path="#{Temporyn.esc(n[:url])}">)
         out << %(<button class="tree-toggle" type="button">)
         out << %(<span class="tree-caret" aria-hidden="true"></span>)
-        out << %(<span class="tree-label">#{Temporyn.esc(n[:display])}</span>)
+        out << %(<span class="tree-label">#{Temporyn.esc(n[:label])}</span>)
         out << %(<span class="tree-count" title="문서 #{n[:count]}개">#{n[:count]}</span>)
         out << %(</button>)
         out << render_tree(n[:children])
@@ -207,7 +208,7 @@ class Temporyn::DocGenerator < Jekyll::Generator
       else
         href = "#{@baseurl}#{n[:url]}"
         out << %(<li class="tree-file" data-url="#{Temporyn.esc(n[:url])}">)
-        out << %(<a href="#{Temporyn.esc(href)}">#{Temporyn.esc(n[:display])}</a></li>)
+        out << %(<a href="#{Temporyn.esc(href)}">#{Temporyn.esc(n[:label])}</a></li>)
       end
     end
     out << %(</ul>)

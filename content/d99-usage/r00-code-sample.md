@@ -1,4 +1,42 @@
-## YAML
+
+---
+
+***index***
+
+[YAML](#yaml)  
+[JSON](#json)  
+[TOML](#toml)  
+[INI](#ini)  
+[XML](#xml)  
+[HTML](#html)  
+[CSS](#css)  
+[SCSS](#scss)  
+[Bash / Shell](#bash--shell)  
+[PowerShell](#powershell)  
+[Dockerfile](#dockerfile)  
+[Makefile](#makefile)  
+[Nginx](#nginx)  
+[SQL](#sql)  
+[GraphQL](#graphql)  
+[Python](#python)  
+[Go](#go)  
+[Rust](#rust)  
+[C](#c)  
+[C++](#c-1)  
+[C#](#c-2)  
+[Java](#java)  
+[Kotlin](#kotlin)  
+[Swift](#swift)  
+[JavaScript](#javascript)  
+[TypeScript](#typescript)  
+[Ruby](#ruby)  
+[PHP](#php)  
+[Lua](#lua)  
+[Diff](#diff)
+
+---
+
+# YAML
 
 ```yaml
 apiVersion: apps/v1
@@ -23,7 +61,7 @@ spec:
             - containerPort: 80
 ```
 
-## JSON
+# JSON
 
 ```json
 {
@@ -36,7 +74,7 @@ spec:
 }
 ```
 
-## TOML
+# TOML
 
 ```toml
 [package]
@@ -51,7 +89,7 @@ jekyll = "4.4"
 default = ["search", "dark-mode"]
 ```
 
-## INI
+# INI
 
 ```ini
 [server]
@@ -62,7 +100,7 @@ port = 4000        ; 로컬 포트
 level = debug
 ```
 
-## XML
+# XML
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -75,7 +113,7 @@ level = debug
 </beans>
 ```
 
-## HTML
+# HTML
 
 ```html
 <!DOCTYPE html>
@@ -92,7 +130,7 @@ level = debug
 </html>
 ```
 
-## CSS
+# CSS
 
 ```css
 :root {
@@ -111,7 +149,7 @@ level = debug
 }
 ```
 
-## SCSS
+# SCSS
 
 ```scss
 $accent: #4f46e5;
@@ -128,7 +166,7 @@ $accent: #4f46e5;
 }
 ```
 
-## Bash / Shell
+# Bash / Shell
 
 ```bash
 #!/usr/bin/env bash
@@ -144,7 +182,7 @@ readonly NOW="$(date +%F)"
 echo "done at ${NOW}"
 ```
 
-## PowerShell
+# PowerShell
 
 ```powershell
 # 최근 수정된 로그 파일 조회
@@ -154,7 +192,7 @@ Get-ChildItem -Path C:\logs -Filter *.log |
   Select-Object -First 5 Name, Length
 ```
 
-## Dockerfile
+# Dockerfile
 
 ```dockerfile
 FROM ruby:3.4-slim AS build
@@ -166,7 +204,7 @@ EXPOSE 4000
 CMD ["bundle", "exec", "jekyll", "serve", "--host", "0.0.0.0"]
 ```
 
-## Makefile
+# Makefile
 
 ```makefile
 .PHONY: build serve clean
@@ -181,7 +219,7 @@ clean:
 	rm -rf _site
 ```
 
-## Nginx
+# Nginx
 
 ```nginx
 server {
@@ -195,7 +233,7 @@ server {
 }
 ```
 
-## SQL
+# SQL
 
 ```sql
 -- 사용자별 주문 수 집계
@@ -209,7 +247,7 @@ ORDER BY orders DESC
 LIMIT 10;
 ```
 
-## GraphQL
+# GraphQL
 
 ```graphql
 query GetUser($id: ID!) {
@@ -223,7 +261,7 @@ query GetUser($id: ID!) {
 }
 ```
 
-## Python
+# Python
 
 ```python
 from dataclasses import dataclass
@@ -243,7 +281,7 @@ if __name__ == "__main__":
     print(centroid([Point(0, 0), Point(2, 4)]))
 ```
 
-## Go
+# Go
 
 ```go
 package main
@@ -262,7 +300,7 @@ func main() {
 }
 ```
 
-## Rust
+# Rust
 
 ```rust
 use std::collections::HashMap;
@@ -281,7 +319,7 @@ fn main() {
 }
 ```
 
-## C
+# C
 
 ```c
 #include <stdio.h>
@@ -298,7 +336,7 @@ int main(void) {
 }
 ```
 
-## C++
+# C++
 
 ```cpp
 #include <iostream>
@@ -313,7 +351,7 @@ int main() {
 }
 ```
 
-## C#
+# C#
 
 ```csharp
 using System;
@@ -330,7 +368,7 @@ class Program {
 }
 ```
 
-## Java
+# Java
 
 ```java
 package com.temporyn.demo;
@@ -347,7 +385,7 @@ public record User(long id, String name) {
 }
 ```
 
-## Kotlin
+# Kotlin
 
 ```kotlin
 data class User(val id: Long, val name: String)
@@ -359,7 +397,7 @@ fun main() {
 }
 ```
 
-## Swift
+# Swift
 
 ```swift
 struct User {
@@ -372,7 +410,7 @@ let names = users.filter { $0.id > 1 }.map { $0.name }
 print(names)
 ```
 
-## JavaScript
+# JavaScript
 
 ```javascript
 const sum = (arr) => arr.reduce((acc, n) => acc + n, 0);
@@ -384,7 +422,7 @@ async function load(url) {
 }
 ```
 
-## TypeScript
+# TypeScript
 
 ```typescript
 interface User {
@@ -397,7 +435,7 @@ function greet<T extends User>(user: T): string {
 }
 ```
 
-## Ruby
+# Ruby
 
 ```ruby
 class Greeter
@@ -413,7 +451,7 @@ end
 puts Greeter.new("temporyn").greet
 ```
 
-## PHP
+# PHP
 
 ```php
 <?php
@@ -429,7 +467,7 @@ foreach ($users as $u) {
 }
 ```
 
-## Lua
+# Lua
 
 ```lua
 local function map(t, fn)
@@ -443,7 +481,7 @@ end
 print(table.concat(map({1, 2, 3}, function(n) return n * n end), ", "))
 ```
 
-## Diff
+# Diff
 
 ```diff
  function greet(name) {

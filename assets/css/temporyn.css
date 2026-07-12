@@ -187,9 +187,27 @@ a:hover { text-decoration: underline; }
 /* ── Article ───────────────────────────────────────────────────────────── */
 .doc-title { margin: 0 0 .3rem; color: var(--accent); font-size: 1.75rem; }
 .doc-path { margin: 0 0 1.7rem; font-size: 12.5px; color: var(--tx-2); letter-spacing: .3px; }
-.doc-body h1, .doc-body h2, .doc-body h3 { line-height: 1.35; margin: 2rem 0 .8rem; }
+.doc-body h1, .doc-body h2, .doc-body h3,
+.doc-body h4, .doc-body h5, .doc-body h6 { line-height: 1.35; margin: 2rem 0 .8rem; }
+/* heading 위 여백 — 앞 내용과 구분되도록 상위 레벨일수록 넓게 */
+.doc-body h1 { margin-top: 3.4rem; }
+.doc-body h2 { margin-top: 3rem; }
+.doc-body h3 { margin-top: 2.4rem; }
+.doc-body h4, .doc-body h5, .doc-body h6 { margin-top: 2rem; }
+/* 문서 첫 heading은 위 여백 제거(제목/breadcrumb 바로 아래) */
+.doc-body > :first-child { margin-top: 0; }
 .doc-body p, .doc-body ul, .doc-body ol { margin: .6rem 0 1.1rem; }
 .doc-body li { margin: .3rem 0; }
+/* 긴 URL 등 공백 없는 토큰이 좁은 화면(모바일)에서 넘치지 않도록 줄바꿈 */
+.doc-body { overflow-wrap: break-word; }
+.doc-body a { overflow-wrap: anywhere; word-break: break-word; }
+
+/* 문서 상단 목차(index) — 마커 없이 링크만, 중첩만 들여쓰기 */
+.doc-body ul.doc-index, .doc-body ul.doc-index ul { list-style: none; padding-left: 0; }
+.doc-body ul.doc-index { margin: .4rem 0 1.2rem; }
+.doc-body ul.doc-index ul { padding-left: 1.2em; margin: .1rem 0; }
+.doc-body ul.doc-index li { position: static; margin: .1rem 0; }
+.doc-body ul.doc-index li::before { content: none; }
 
 /* 순서 없는 목록 마커 */
 .doc-body ul { list-style: none; padding-left: 1.4em; }
