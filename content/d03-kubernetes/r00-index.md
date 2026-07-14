@@ -3,13 +3,13 @@
 
 | #   | 주제                                          | 파일                                        | 리뷰  | 확인  |
 | :-- | :------------------------------------------ | :---------------------------------------- | :-: | :-: |
-| 0   | Prepared                                    | [[r01-prepared]]                          |  ✅  | 🔲  |
-| 1   | Pod                                         | [[r02-pod]]                               |  ✅  | 🔲  |
-| 2   | workload controller (ReplicaSet·Deployment) | [[r03-workload-controller]]               |  ✅  | 🔲  |
-| 3   | StatefulSet<br>DaemonSet<br>Job/CronJob     | [[r04-statefulset-daemonset-job-cronjob]] |  ✅  | 🔲  |
-| 4   | Service                                     | [[r05-service]]                           |  ✅  | 🔲  |
-| 5   | Ingress                                     | —                                         | 🔲  | 🔲  |
-| 6   | NetworkPolicy                               | —                                         | 🔲  | 🔲  |
+| 0   | Prepared                                    | [[d00-temporyn.github.io/d00-drafts/d03-kubernetes/r01-prepared]]                          |  ✅  | 🔲  |
+| 1   | Pod                                         | [[d00-temporyn.github.io/d00-drafts/d03-kubernetes/r02-pod]]                               |  ✅  | 🔲  |
+| 2   | workload controller (ReplicaSet·Deployment) | [[d00-temporyn.github.io/d00-drafts/d03-kubernetes/r03-workload-controller]]               |  ✅  | 🔲  |
+| 3   | StatefulSet<br>DaemonSet<br>Job/CronJob     | [[d00-temporyn.github.io/d00-drafts/d03-kubernetes/r04-statefulset-daemonset-job-cronjob]] |  ✅  | 🔲  |
+| 4   | Service                                     | [[d00-temporyn.github.io/d00-drafts/d03-kubernetes/r05-service]]                           |  ✅  | 🔲  |
+| 5   | Ingress                                     | [[r06-ingress]]                           | 🔲  | 🔲  |
+| 6   | NetworkPolicy                               | [[r07-networkpolicy]]                      | 🔲  | 🔲  |
 | 7   | Volume                                      | —                                         | 🔲  | 🔲  |
 | 8   | PV·PVC·StorageClass                         | —                                         | 🔲  | 🔲  |
 | 9   | ConfigMap과 Secret                           | —                                         | 🔲  | 🔲  |
