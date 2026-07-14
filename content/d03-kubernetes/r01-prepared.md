@@ -35,6 +35,7 @@
 | 용어                | 설명                                        |
 | :---------------- | :---------------------------------------- |
 | **컨테이너**          | 격리되어 실행되는 애플리케이션 프로세스. Pod의 재료.           |
+| **Pod**            | 컨테이너 하나 이상을 묶어 함께 배치·실행하는 쿠버네티스 최소 배포 단위. |
 | **이미지**           | 컨테이너의 설계도(스냅샷). 예: `nginx:1.27`           |
 | **노드(Node)**      | 컨테이너가 실행되는 서버 1대(물리/가상).                  |
 | **클러스터(Cluster)** | 여러 노드를 묶은 전체. 쿠버네티스가 관리하는 단위.             |
@@ -47,7 +48,7 @@
 # 2. 쿠버네티스 기본구조
 ---
 
-클러스터는 **Control Plane**과 **Worker Node**로 나뉜다. Control Plane이 무엇을 어디에 띄울지 결정하고, Worker Node가 실제로 컨테이너(Pod)를 실행한다. `kubectl`은 Control Plane의 API 서버에만 요청하며, 원하는 상태를 저장해 두면 각 컴포넌트가 현재 상태를 그 상태로 맞춘다.
+클러스터는 **Control Plane**과 **Worker Node**로 나뉜다. Control Plane이 무엇을 어디에 띄울지 결정하고, Worker Node가 실제로 Pod(컨테이너 하나 이상을 묶은 단위)를 실행한다. `kubectl`은 Control Plane의 API 서버에만 요청하며, 원하는 상태를 저장해 두면 각 컴포넌트가 현재 상태를 그 상태로 맞춘다.
 
 ```text
              +-----------------------------------+
@@ -134,6 +135,8 @@ minikube는 이 구조를 로컬 Docker 컨테이너로 재현한다. `minikube 
 
 **Scoring**(과거 이름 priorities) — Filtering을 통과한 노드마다 점수를 매겨 가장 높은 노드를 고른다. 동점이면 무작위로 선택한다.
 
+Filtering을 통과하는 노드가 하나도 없으면 Pod는 배정되지 못한 채 `Pending` 상태로 남고, `FailedScheduling` 이벤트가 기록된다. 이 경우 스케줄러는 우선순위(Priority)가 낮은 다른 Pod를 쫓아내는 **preemption**으로 빈 자리를 만들어 재시도하기도 한다.
+
 최신 스케줄러는 이 단계들을 `QueueSort`·`Filter`·`Score`·`Reserve`·`Permit`·`Bind` 같은 플러그인 확장점으로 세분화한 **Scheduling Framework**로 구현한다.
 
 
@@ -170,25 +173,31 @@ minikube는 별도 지정이 없으면 기본 모드로 동작한다.
 # 9. Docker 설치 (dnf)
 ---
 
-minikube가 이 Docker 위에 노드를 컨테이너로 띄운다. 공식 저장소 등록 후 설치.
+minikube가 이 Docker 위에 노드를 컨테이너로 띄운다. 공식 저장소 등록 후 설치한다.
 
 ```bash
-sudo dnf -y install dnf-plugins-core
-sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io
+sudo dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # 데몬 시작 + 부팅 시 자동 실행
 sudo systemctl enable --now docker
-
-# sudo 없이 docker 실행 (그룹 반영은 재로그인 후)
-sudo usermod -aG docker $USER
 ```
 
-확인:
+확인(sudo로 실행 — group 반영 여부와 무관하게 재현됨):
 
 ```bash
-docker run --rm hello-world
+sudo docker run --rm hello-world
 ```
+
+sudo 없이 `docker` 명령을 쓰려면 현재 사용자를 `docker` 그룹에 추가한다.
+
+```bash
+sudo usermod -aG docker $USER
+newgrp docker                # 현재 셸에 즉시 반영(또는 로그아웃 후 재로그인)
+docker run --rm hello-world  # group 반영 후에는 sudo 없이 동작
+```
+
+`usermod -aG` 직후 새 그룹은 **즉시 반영되지 않는다**. `newgrp` 또는 재로그인 없이 바로 `docker run`을 실행하면 `permission denied`로 실패한다 — Heading.11 이후 minikube 명령도 이 그룹이 반영된 셸에서 실행해야 한다.
 
 
 
@@ -232,7 +241,9 @@ sudo dnf install -y ./minikube-latest.x86_64.rpm
 minikube start --nodes=3 --driver=docker
 ```
 
-> 각 노드는 실제 서버가 아니라 로컬 컨테이너. 3노드는 최소 4GB, 여유 있게 6~8GB RAM.
+> 각 노드는 실제 서버가 아니라 로컬 컨테이너. minikube 공식 최소 요구사항은 노드 1개 기준 2GB RAM이고 3-node 전용 공식 가이드는 없다 — 단순히 3배 하면 6GB 안팎이 필요하다는 계산이 나온다(미검증 추정치). 여유 있게 8GB 이상을 권장한다.
+
+메모리가 부족하면 일부 노드가 `NotReady`에서 멈추거나 컨테이너가 OOM으로 재시작을 반복한다. 이 경우 `minikube logs`와 `kubectl describe node <노드이름>`으로 원인을 확인한다.
 
 
 
@@ -241,6 +252,8 @@ minikube start --nodes=3 --driver=docker
 ```bash
 kubectl get nodes
 ```
+
+예시 출력(실제 AGE·버전은 실행 시점·minikube 버전에 따라 달라진다):
 
 ```text
 NAME           STATUS   ROLES           AGE   VERSION
